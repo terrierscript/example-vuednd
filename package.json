@@ -4,8 +4,14 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "watch": "watchify   -e main.js -o dist/build.js -v -d",
+    "build": "browserify -e main.js -o dist/build.js -v"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "browserify": "^5.9.1",
+    "vue": "^0.10.6",
+    "watchify": "^1.0.1"
+  }
 }
