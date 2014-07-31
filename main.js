@@ -1,45 +1,73 @@
 var Vue = require("Vue")
 
-Vue.component("twls-list-item", {
-  template: "#list-item-template",
+Vue.component("twls-user", {
+  template: "#user-template",
   methods : {
-    onDrop : function(e){
-      e.stopPropagation();
-      e.preventDefault();
- 
-      console.log("z")
-    },
-    onDragOver : function(e){
-      e.preventDefault()
-      //console.log(e)
+    onDragStart : function(e){
+      e.dataTransfer.dropEffect = "move"
+      this.$dispatch("itemDrag", this)
     }
   }
-
 })
 
 Vue.component("twls-list", {
   template: "#list-template",
+  created : function(){
+    this.$on("itemDrag", this.onItemDrag)
+  },
+  methods : {
+    onItemDrag : function(itemVM){
+      this.$dispatch("listDrag", this, itemVM)
+    },
+    onDragOver : function(e){
+      e.preventDefault()
+    },
+    onDrop : function(e){
+      this.$dispatch("listDrop", this)
+    }
+  }
 })
+var loadedData = [{
+  name : "current",
+  users : [
+    {
+      id :"vo",
+      name :"zo",
+    },
+    {
+      id :"vo2",
+      name :"zo2",
+    },
+  ]
+}, {
+  name : "empty",
+  users : []
+}]
 
-
-new Vue({
+window.app = new Vue({
   el : "#container",
   data : { // mock data
-    list : [{
-      name : "current",
-      users : [
-        {
-          id :"vo",
-          name :"zo",
-        },
-        {
-          id :"vo2",
-          name :"zo2",
-        },
-      ]
-    }, {
-      name : "empty",
-      users : []
-    }]
+    dragActiveList : null,
+    dragActiveUser : null,
+    lists : loadedData
   },
+  created : function(){
+    this.$on("listDrag", this.onListDrag)
+    this.$on("listDrop", this.onListDrop)
+  },
+  methods : {
+    onListDrag : function(listVM, itemVM){
+      this.dragActiveList = listVM
+      this.dragActiveUser = itemVM
+    },
+    onListDrop : function(listVM){
+      this.moveItem(this.dragActiveList, listVM, this.dragActiveUser )
+    },
+    moveItem : function(listFrom, listTo, item){
+      if(listFrom.$index == listTo.$index) return
+      item = listFrom.users.splice(item.$ndex, 1)[0]
+      console.log(item)
+      listTo.users.push(item)
+    }
+  }
 })

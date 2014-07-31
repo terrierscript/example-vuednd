@@ -3,24 +3,29 @@
     <link rel="stylesheet" href="style.css">
   </head>
   <body>
-    <template id="list-item-template">
-      <div v-on="dragover: onDragOver" >
-        This is {{name}} List
-        <div v-repeat="users" class="user" draggable=true v-on="drop: onDrop">
-          <span v-text="id"></span>
-          <span v-text="name"></span>
-        </div>
+    <template id="user-template">
+      <div class="user" draggable=true>
+        <span v-text="id"></span>
+        <span v-text="name"></span>
       </div>
     </template>
     <template id="list-template">
-      <div >
-        <div  v-component="twls-list-item"></div>
+      This is {{name}} List
+      <div v-repeat="users" v-ref="userView"
+            v-component="twls-user"
+             v-on="dragstart:onDragStart" 
+             v-with="user"></div>
       </div>
     </template>
     <div id="container">
       container
-      <div v-repeat="list" class="list">
-        <div v-component="twls-list"></div>
+      <div class="list" 
+          v-repeat="lists"
+          v-with="list"
+          v-ref="listView"
+          v-component="twls-list" 
+          v-on="dragover: onDragOver, 
+                drop: onDrop">
       </div>
     </div>
   </body>
