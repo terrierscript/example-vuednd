@@ -1,8 +1,9 @@
 {
-  "name": "twls",
+  "name": "example-vue-dnd",
+  "private" : true,
   "version": "0.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "main.js",
   "scripts": {
     "watch": "watchify   -e main.js -o dist/build.js -v -d",
     "build": "browserify -e main.js -o dist/build.js -v"

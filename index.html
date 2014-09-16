@@ -3,27 +3,28 @@
     <link rel="stylesheet" href="style.css">
   </head>
   <body>
-    <template id="user-template">
-      <div class="user" draggable=true>
+    <template id="item-template">
+      <div class="item" draggable=true v-class="dragging : isDragging">
         <span v-text="id"></span>
         <span v-text="name"></span>
       </div>
     </template>
     <template id="list-template">
       This is {{name}} List
-      <div v-repeat="users" v-ref="userView"
-            v-component="twls-user"
-             v-on="dragstart:onDragStart" 
-             v-with="user"></div>
+      <div class="items">
+        <div v-repeat="items" v-ref="itemView"
+              v-component="item"
+              v-on="dragstart:onDragStart,
+                    dragend:dragEnd" 
+              v-with="item"></div>
       </div>
     </template>
     <div id="container">
-      container
       <div class="list" 
           v-repeat="lists"
           v-with="list"
           v-ref="listView"
-          v-component="twls-list" 
+          v-component="list" 
           v-on="dragover: onDragOver, 
                 drop: onDrop">
       </div>
