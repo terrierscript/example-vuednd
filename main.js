@@ -81,7 +81,7 @@
         this.dragActiveItem = itemVM
       },
       onListDrop : function(listVM){
-        this.moveItem(this.dragActiveList, listVM, this.dragActiveUser )
+        this.moveItem(this.dragActiveList, listVM, this.dragActiveItem )
       },
       moveItem : function(listFrom, listTo, item){
         if(listFrom.$index === listTo.$index) return
